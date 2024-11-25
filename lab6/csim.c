@@ -111,7 +111,9 @@ void freeCache()
 
 void accessData(mem_addr_t addr)
 {
-
+    int set_index = (addr & set_index_mask) >> b; // 计算组索引
+    int block_offset = (addr & ~set_index_mask) >> (b + s); // 计算块偏移
+    int tag = addr >> (b + s); // 计算tag
 
 
 
@@ -133,11 +135,11 @@ void replayTrace(char* trace_fn)//trace_fn跟踪文件名
         exit(1);
     }
 
-    while( fgets(buf, 1000, trace_fp) != NULL) {
+    while( fgets(buf, 1000, trace_fp) != NULL) {//逐行读取跟踪文件
         if(buf[1]=='S' || buf[1]=='L' || buf[1]=='M') {
-            sscanf(buf+3, "%llx,%u", &addr, &len);
+            sscanf(buf+3, "%llx,%u", &addr, &len);//解析地址(16进制)和长度(十进制)和长度
       
-            if(verbosity)
+            if(verbosity)//如果设置了verbosity，则打印跟踪信息
                 printf("%c %llx,%u ", buf[1], addr, len);
 
             accessData(addr);
@@ -180,10 +182,10 @@ int main(int argc, char* argv[])
 {
     char c;
 
-    while( (c=getopt(argc,argv,"s:E:b:t:vh")) != -1){
+    while( (c=getopt(argc,argv,"s:E:b:t:vh")) != -1){//从命令行中获取参数
         switch(c){
         case 's':
-            s = atoi(optarg);
+            s = atoi(optarg);//atoi将字符串转换为整数
             break;
         case 'E':
             E = atoi(optarg);
@@ -192,7 +194,7 @@ int main(int argc, char* argv[])
             b = atoi(optarg);
             break;
         case 't':
-            trace_file = optarg;
+            trace_file = optarg;//获取跟踪文件名
             break;
         case 'v':
             verbosity = 1;
