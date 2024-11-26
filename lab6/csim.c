@@ -107,56 +107,61 @@ void freeCache()
 
 void accessData(mem_addr_t addr)
 {
-    mem_addr_t set_index_mask = ((1ULL << s) - 1) << b;  // 集合索引掩码
+    mem_addr_t set_index_mask = ((1ULL << s) - 1) << b; // 集合索引掩码
+
     mem_addr_t set_index = (addr & set_index_mask) >> b; // 计算组索引
     mem_addr_t tag = addr >> (b + s);                    // 计算tag
 
     // 更新LRU计数器
     for (int j = 0; j < E; j++)
     {
-        for (int i = 0; i < E; i++)
-        {
-            if (cache[set_index][i].valid == 1 && cache[set_index][i].tag == tag)
-            {
 
-                hit_count++;
-                cache[set_index][i].lru = 0;
-                return;
-            }
-        }
-
-        // 如果为空
-        miss_count++;
-        for (int i = 0; i < E; i++)
-        {
-            if (cache[set_index][i].valid == 0)
-            {
-
-                cache[set_index][i].tag = tag;
-                cache[set_index][i].valid = 1;
-                cache[set_index][i].lru = 0;
-                return;
-            }
-        }
-
-        // 驱逐一个缓冲行
-        eviction_count++;
-        unsigned long long maxlru = 0;
-        int temp = 0;
-        for (int i = 0; i < E; i++)
-        {
-            if (maxlru <= cache[set_index][i].lru && cache[set_index][i].valid)
-            {
-                maxlru = cache[set_index][i].lru;
-                temp = i;
-            }
-        }
-        cache[set_index][temp].tag = tag;
-        cache[set_index][temp].valid = 1;
-        cache[set_index][temp].lru = 0;
+        cache[set_index][j].lru++;
     }
-    cache[set_index][j].lru++;
+
+    // 如果命中
+    for (int i = 0; i < E; i++)
+    {
+        if (cache[set_index][i].valid == 1 && cache[set_index][i].tag == tag)
+        {
+
+            hit_count++;
+            cache[set_index][i].lru = 0;
+            return;
+        }
+    }
+
+    // 如果为空
+    miss_count++;
+    for (int i = 0; i < E; i++)
+    {
+        if (cache[set_index][i].valid == 0)
+        {
+
+            cache[set_index][i].tag = tag;
+            cache[set_index][i].valid = 1;
+            cache[set_index][i].lru = 0;
+            return;
+        }
+    }
+
+    // 驱逐一个缓冲行
+    eviction_count++;
+    unsigned long long maxlru = 0;
+    int temp = 0;
+    for (int i = 0; i < E; i++)
+    {
+        if (maxlru <= cache[set_index][i].lru && cache[set_index][i].valid)
+        {
+            maxlru = cache[set_index][i].lru;
+            temp = i;
+        }
+    }
+    cache[set_index][temp].tag = tag;
+    cache[set_index][temp].valid=1;
+    cache[set_index][temp].lru = 0;
 }
+
 
 /*
  * replayTrace - 重放给定的跟踪文件与缓存
