@@ -1,11 +1,11 @@
 /* 
- * trans.c - Matrix transpose B = A^T
+ * trans.c - 矩阵转置 B = A^T
  *
- * Each transpose function must have a prototype of the form:
+ * 每个转置函数必须具有如下形式的原型：
  * void trans(int M, int N, int A[N][M], int B[M][N]);
  *
- * A transpose function is evaluated by counting the number of misses
- * on a 1KB direct mapped cache with a block size of 32 bytes.
+ * 转置函数的评价标准是计算在一个 1KB 直接映射缓存中，
+ * 使用 32 字节的块大小时的缓存未命中次数。
  */ 
 #include <stdio.h>
 #include "cachelab.h"
@@ -13,11 +13,9 @@
 int is_transpose(int M, int N, int A[N][M], int B[M][N]);
 
 /* 
- * transpose_submit - This is the solution transpose function that you
- *     will be graded on for Part B of the assignment. Do not change
- *     the description string "Transpose submission", as the driver
- *     searches for that string to identify the transpose function to
- *     be graded. 
+ * transpose_submit - 这是作业 Part B 中将被评分的转置函数。
+ * 请不要修改描述字符串 "Transpose submission"，因为驱动程序会
+ * 搜索该字符串来识别需要评分的转置函数。
  */
 char transpose_submit_desc[] = "Transpose submission";
 void transpose_submit(int M, int N, int A[N][M], int B[M][N])
@@ -26,12 +24,11 @@ void transpose_submit(int M, int N, int A[N][M], int B[M][N])
 }
 
 /* 
- * You can define additional transpose functions below. We've defined
- * a simple one below to help you get started. 
+ * 你可以在下面定义额外的转置函数。以下是一个简单的示例函数，
+ * 它并未针对缓存进行优化。
  */ 
-
 /* 
- * trans - A simple baseline transpose function, not optimized for the cache.
+ * trans - 一个简单的基线转置函数，按行扫描，未针对缓存进行优化。
  */
 char trans_desc[] = "Simple row-wise scan transpose";
 void trans(int M, int N, int A[N][M], int B[M][N])
@@ -48,26 +45,23 @@ void trans(int M, int N, int A[N][M], int B[M][N])
 }
 
 /*
- * registerFunctions - This function registers your transpose
- *     functions with the driver.  At runtime, the driver will
- *     evaluate each of the registered functions and summarize their
- *     performance. This is a handy way to experiment with different
- *     transpose strategies.
+ * registerFunctions - 此函数用于注册你的转置函数。
+ * 在运行时，驱动程序会评估每个注册的函数，并总结它们的性能。
+ * 这是一个用于尝试不同转置策略的方便方式。
  */
 void registerFunctions()
 {
-    /* Register your solution function */
+    /* 注册你的解决方案函数 */
     registerTransFunction(transpose_submit, transpose_submit_desc); 
 
-    /* Register any additional transpose functions */
+    /* 注册其他任何额外的转置函数 */
     registerTransFunction(trans, trans_desc); 
 
 }
 
 /* 
- * is_transpose - This helper function checks if B is the transpose of
- *     A. You can check the correctness of your transpose by calling
- *     it before returning from the transpose function.
+ * is_transpose - 该辅助函数检查 B 是否为 A 的转置。
+ * 你可以在转置函数返回之前调用此函数以检查转置的正确性。
  */
 int is_transpose(int M, int N, int A[N][M], int B[M][N])
 {
