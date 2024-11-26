@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
 ```c
 #include <getopt.h>
 int getopt_long(int argc, char * const argv[], const char *optstring,
-                const struct option *longopts, int *longindex);      
+                const struct option *longopts, int *longindex);  
 ```
 
 ## atoi 函数
@@ -304,12 +304,12 @@ hit=4 miss=5 eviction=3
 
 地址64位存
 
-| 初始值 | 标志位 | 索引位 | 偏移位 | 操作码 | 结果     |
-| ------ | ------ | ------ | ------ | ------ | -------- |
-| A      | 0      | 0      | A      | L      | miss     |
-| 14     | 0      | 1      | 4      | M      | miss,hit |
-| 16     | 0      | 1      | 6      | L      | hit      |
-| 12     | 0      | 1      | 2      | S      | hit      |
-| 6E     | 0      | 6      | E      | L      | miss     |
-| D2     | 0      | D      | 2      | L      | miss     |
-| C      | 0      | 0      | C      | M      | hit,hit  |
+| 初始值 | 标志位 | 索引位 | 偏移位 | 操作码 | 结果           |
+| ------ | ------ | ------ | ------ | ------ | -------------- |
+| 10     | 0      | 1      | 0      | L      | miss           |
+| 20     | 0      | 2      | 0      | M      | miss,hit       |
+| 22     | 0      | 2      | 2      | L      | hit            |
+| 18     | 0      | 1      | 8      | S      | hit            |
+| 110    | 1      | 1      | 0      | L      | miss ,eviction |
+| 210    | 2      | 1      | 0      | L      | miss,eviction  |
+| 12     | 0      | 1      | 2      | M      | miss,eviction  |
