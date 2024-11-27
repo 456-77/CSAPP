@@ -75,6 +75,7 @@ void transpose_submit2(int M, int N, int A[N][M], int B[M][N])
 - **第四步**:利用上述存储B的右上角的本地变量,把A的右上复制给B的左下
 - **第五步**:把A的右下复制给B的右下
 ![alt text](IMG_0533.JPG)
+
 ``` c
 
 ```
