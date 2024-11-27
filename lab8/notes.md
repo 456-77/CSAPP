@@ -4,13 +4,14 @@
 所以每个缓存行的大小为2^5个字节,又因为数组是int型,即4字节,所以每个缓存行可以存8个数
 因为缓存总大小为2^5*2^5字节,可以存32*8个数
 
-
 ## M 32 N 32
-参考:[https://zhuanlan.zhihu.com/p/484657229](https://zhuanlan.zhihu.com/p/484657229)
+
+参考:[https://zhuanlan.zhihu.com/p/484657229](https://zhuanlan.zhihu.com/p/484657229)  
 要存的数有32*32,所以缓存只能存1/4个数  
 ![alt text](image.png)
 
 ## function1
+
 ``` c
 void transpose_submit(int M, int N, int A[N][M], int B[M][N])
 { 
@@ -40,7 +41,9 @@ void transpose_submit(int M, int N, int A[N][M], int B[M][N])
     }
 }
 ```
+
 ## function2
+
 ``` c
 void transpose_submit2(int M, int N, int A[N][M], int B[M][N])
 {
