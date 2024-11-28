@@ -50,9 +50,9 @@ char transpose_64_desc[] = "Transpose 64";
 void transpose_64(int M, int N, int A[N][M], int B[M][N])
 {
     int temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8;
-    for (int i = 0; i < M; i += 8) // A,B的行
+    for (int i = 0; i < M; i += 8) // A的行
     {
-        for (int j = 0; j < N; j += 8) // A,B的列
+        for (int j = 0; j < N; j += 8) // A的列
         {
             // k用来遍历4*4小块的行,列不需要另设
             // 将A的上面两块倒置并复制到B的上面
